@@ -1,12 +1,12 @@
-site_name: REPLACE_PACKAGE_NAME
-site_url: https://github.com/REPLACE_GITHUB_USERNAME/REPLACE_PACKAGE_NAME
-site_author: REPLACE_NAME REPLACE_SURNAME
-site_description: REPLACE_PACKAGE_DESCRIPTION
+site_name: wring
+site_url: https://github.com/jpn--/wring
+site_author: Jeff Newman
+site_description: A tool to compress multiple CSV data files into parquet
 
-repo_name: REPLACE_GITHUB_USERNAME/REPLACE_PACKAGE_NAME
-repo_url: https://github.com/REPLACE_GITHUB_USERNAME/REPLACE_PACKAGE_NAME
+repo_name: jpn--/wring
+repo_url: https://github.com/jpn--/wring
 
-copyright: Copyright (c) 2022-present REPLACE_NAME REPLACE_SURNAME <REPLACE_EMAIL>
+copyright: Copyright (c) 2023-present Jeff Newman <jeff@newman.me>
 
 theme:
   name: material
@@ -38,13 +38,13 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/REPLACE_PACKAGE_NAME/
+      link: https://pypi.org/project/wring/
     - icon: fontawesome/brands/github
-      link: https://github.com/REPLACE_GITHUB_USERNAME
-    # - icon: fontawesome/brands/twitter
-    #   link: https://twitter.com/REPLACE_TWITTER_USERNAME
-    # - icon: fontawesome/brands/linkedin
-    #   link: https://www.linkedin.com/in/REPLACE_LINKEDIN_USERNAME/
+      link: https://github.com/jpn--
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jpn
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/wirepaladin/
 
 nav:
   - Home: index.md

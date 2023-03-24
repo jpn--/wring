@@ -3,33 +3,35 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [project]
-authors = [{name = "REPLACE_NAME REPLACE_SURNAME"}]
+authors = [{name = "Jeff Newman"}]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
-description = "REPLACE_PACKAGE_DESCRIPTION"
+dependencies = [
+  "pyarrow",
+]
+description = "A tool to compress multiple CSV data files into parquet"
 dynamic = ["version"]
 keywords = []
 license = "MIT"
-name = "REPLACE_PACKAGE_NAME"
+name = "wring"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
+
+[project.scripts]
+wring = "wring.main:crawl"
 
 [project.urls]
-Documentation = "https://REPLACE_GITHUB_USERNAME.github.io/REPLACE_PACKAGE_NAME"
-Issues = "https://github.com/REPLACE_GITHUB_USERNAME/REPLACE_PACKAGE_NAME/issues"
-Source = "https://github.com/REPLACE_GITHUB_USERNAME/REPLACE_PACKAGE_NAME"
+Documentation = "https://jpn--.github.io/wring"
+Issues = "https://github.com/jpn--/wring/issues"
+Source = "https://github.com/jpn--/wring"
 
 [tool.hatch.version]
-path = "src/REPLACE_PACKAGE_NAME/__init__.py"
+path = "src/wring/__init__.py"
 
 [project.optional-dependencies]
 docs = [
@@ -40,7 +42,7 @@ docs = [
 ]
 quality = [
   "black~=22.10.0",
-  "ruff~=0.0.194",
+  "ruff",
   "pre-commit~=2.20.0",
 ]
 tests = [
@@ -79,7 +81,7 @@ select = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["REPLACE_PACKAGE_NAME"]
+known-first-party = ["wring"]
 
 [tool.hatch.envs.test]
 features = [

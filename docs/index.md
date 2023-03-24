@@ -1,3 +1,3 @@
-# REPLACE_PACKAGE_NAME
+# wring
 
-REPLACE_PACKAGE_DESCRIPTION
+A tool to compress multiple CSV data files into parquet
