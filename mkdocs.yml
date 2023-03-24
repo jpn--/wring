@@ -49,4 +49,5 @@ extra:
 
 nav:
   - Home: index.md
+  - Usage: usage.md
   - License: license.md

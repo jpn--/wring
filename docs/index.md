@@ -2,12 +2,16 @@
 
 A tool to compress multiple CSV data files into parquet
 
-## Installation
+Wring is available as [`wring`](https://pypi.org/project/wring/) on PyPI:
 
+```shell
 pip install wring
+```
 
-## Usage
+Wring is primarily a command line tool.
 
-::: mkdocs-click
-    :module: wring.main
-    :command: crawl
+```shell
+wring .
+```
+
+For an overview of options, see [_Usage_](usage.md).
