@@ -23,7 +23,7 @@ def crawl(directory, compression, compression_level):
                 target = source[:-7] + ".parquet"
             if target is not None:
                 if not os.path.exists(target):
-                    click.echo(click.style('converting ', fg='green') + source)
+                    click.echo(click.style("converting ", fg="green") + source)
                     try:
                         t = pc.read_csv(source)
                         pq.write_table(
@@ -35,7 +35,11 @@ def crawl(directory, compression, compression_level):
                     except Exception as err:
                         click.echo(click.style(str(err), fg="red", bold=True))
                 else:
-                    click.echo(click.style('not converting ', fg='red') + source + click.style(' (parquet already exists)', fg='red'))
+                    click.echo(
+                        click.style("not converting ", fg="red")
+                        + source
+                        + click.style(" (parquet already exists)", fg="red")
+                    )
 
 
 if __name__ == "__main__":
