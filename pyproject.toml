@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 
 [project]
 authors = [{name = "Jeff Newman"}]
@@ -31,7 +31,7 @@ Issues = "https://github.com/jpn--/wring/issues"
 Source = "https://github.com/jpn--/wring"
 
 [tool.hatch.version]
-path = "src/wring/__init__.py"
+source = "vcs"
 
 [project.optional-dependencies]
 docs = [
@@ -120,3 +120,6 @@ exclude = [
   "/Dockerfile",
   "/.dockerignore",
 ]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/wring/_version.py"

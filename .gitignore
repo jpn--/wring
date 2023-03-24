@@ -114,3 +114,4 @@ venv.bak/
 
 # Ruff cache
 .ruff_cache/
+_version.py

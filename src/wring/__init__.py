@@ -1,4 +1,4 @@
 """`wring `: A tool to compress multiple CSV data files into parquet"""
 
 __author__ = "Jeff Newman <jeff@newman.me>"
-__version__ = "0.0.2"
+from ._version import __version__, __version_tuple__  # noqa
