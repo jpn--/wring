@@ -23,7 +23,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 
 [project.scripts]
-wring = "wring.main:crawl"
+wring = "wring.main:wring"
 
 [project.urls]
 Documentation = "https://jpn--.github.io/wring"

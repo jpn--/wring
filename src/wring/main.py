@@ -9,7 +9,7 @@ import pyarrow.parquet as pq
 @click.argument("directory", type=click.Path(exists=True))
 @click.option("--compression", default="zstd", help="compression algorithm")
 @click.option("--compression-level", default=9, help="compression algorithm")
-def crawl(directory, compression, compression_level):
+def wring(directory, compression, compression_level):
     """Crawl a directory and compress csv files into parquet."""
     click.echo(f"wringing {directory} [{compression=}, {compression_level=}]")
     click.echo(f"[{compression=}, {compression_level=}]")
@@ -43,4 +43,4 @@ def crawl(directory, compression, compression_level):
 
 
 if __name__ == "__main__":
-    crawl()
+    wring()
