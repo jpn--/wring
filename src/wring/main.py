@@ -8,8 +8,13 @@ import pyarrow.parquet as pq
 @click.command()
 @click.argument("directory", type=click.Path(exists=True))
 @click.option("--compression", default="zstd", help="compression algorithm")
-@click.option("--compression-level", default=9, help="compression algorithm")
-def wring(directory, compression, compression_level):
+@click.option("--compression-level", default=9, help="compression level")
+@click.option(
+    "--clean/--no-clean",
+    default=False,
+    help="remove uncompressed files after successful wringing",
+)
+def wring(directory, compression, compression_level, clean):
     """Crawl a directory and compress csv files into parquet."""
     click.echo(f"wringing {directory} [{compression=}, {compression_level=}]")
     click.echo(f"[{compression=}, {compression_level=}]")
@@ -34,6 +39,10 @@ def wring(directory, compression, compression_level):
                         )
                     except Exception as err:
                         click.echo(click.style(str(err), fg="red", bold=True))
+                    else:
+                        if clean and os.path.exists(target):
+                            if pq.read_table(target).equals(t, check_metadata=True):
+                                os.unlink(source)
                 else:
                     click.echo(
                         click.style("not converting ", fg="red")
