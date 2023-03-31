@@ -13,6 +13,7 @@ classifiers = [
 ]
 dependencies = [
   "pyarrow",
+  "rich",
   "typer",
   "zstandard",
 ]
