@@ -1,3 +1,3 @@
-::: mkdocs-click
-    :module: wring.main
-    :command: wring
+::: mkdocs-typer
+    :module: wring
+    :command: app

@@ -28,6 +28,7 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.superfences
   - mkdocs-click
+  - mkdocs-typer
 
 plugins:
   - search:
