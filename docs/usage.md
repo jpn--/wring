@@ -1,3 +1,3 @@
 ::: mkdocs-typer
     :module: wring
-    :command: app
+    :command: Command Line Usage
