@@ -178,10 +178,25 @@ def compress_zst_chunks(in_path: Path, archive: Path, chunksize=1_000_000_000):
 
 @app.command()
 def tarzst(
-    directory: Path,
-    archive: Optional[Path] = None,
-    chunkgigs: Optional[float] = typer.Option(None, "-c", "--chunk-gigs"),
+    directory: Path = typer.Argument(..., help="the directory to compress"),
+    archive: Optional[Path] = typer.Option(
+        None,
+        help=(
+            "base file name for the resulting archive file(s), if not provided "
+            "a '.tar.zst' suffix is added to the original directory name"
+        ),
+    ),
+    chunkgigs: Optional[float] = typer.Option(
+        None,
+        "-c",
+        "--chunk-gigs",
+        help=(
+            "chunk the resulting archive into parts that are no larger than "
+            "this many gigabytes"
+        ),
+    ),
 ):
+    """Compress a directory using the .tar.zst format."""
     directory = Path(directory)
     name = directory.name
     if not archive:
@@ -201,9 +216,19 @@ def tarzst(
 
 @app.command()
 def untarzst(
-    archive: Path,
-    outdir: Optional[Path] = None,
+    archive: Path = typer.Argument(
+        ..., help="the archive file to decompress, or the first of multiple parts"
+    ),
+    outdir: Optional[Path] = typer.Option(
+        None,
+        help=(
+            "directory name for the resulting decompressed file(s), if not "
+            "provided any '.tar.zst' suffix is stripped from the archive file name "
+            "and the rest is used"
+        ),
+    ),
 ):
+    """Decompress a directory stored in .tar.zst format."""
     name = archive.name
     if not outdir and name.endswith(".tar.zst"):
         outdir = archive.with_name(name[:-8])
