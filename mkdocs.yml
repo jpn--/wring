@@ -54,7 +54,5 @@ extra:
 
 nav:
   - Home: index.md
-  - Usage:
-    - CSV: csv.md
-    - ZST: zst.md
+  - Usage: usage.md
   - License: license.md
