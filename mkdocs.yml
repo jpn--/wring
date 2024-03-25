@@ -1,7 +1,7 @@
 site_name: wring
 site_url: https://github.com/jpn--/wring
 site_author: Jeff Newman
-site_description: A tool to compress multiple CSV data files into parquet
+site_description: A tool to compress data files
 
 repo_name: jpn--/wring
 repo_url: https://github.com/jpn--/wring

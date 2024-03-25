@@ -91,6 +91,8 @@ def compress_zst(in_path: Path, archive: Path):
     """
     if zstandard is None:
         raise ImportError("pip install zstandard")
+    if not in_path.is_dir():
+        raise NotADirectoryError(in_path)
     dctx = zstandard.ZstdCompressor(level=9, threads=-1, write_checksum=True)
     with tempfile.TemporaryFile(suffix=".tar") as ofh:
         with tarfile.open(fileobj=ofh, mode="w") as z:
