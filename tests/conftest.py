@@ -1,8 +1,8 @@
 import random
 import string
 from pathlib import Path
-import numpy as np
 
+import numpy as np
 import pytest
 
 
@@ -24,10 +24,10 @@ def junk_omx(tmp_path_factory) -> Path:
     """Create a junk OMX file."""
     file = tmp_path_factory.mktemp("data") / "junk.omx"
     from wring.omx import OMX
+
     prng = np.random.default_rng(42)
     with OMX(file, "w") as omx:
         omx.add_matrix("A", prng.uniform(size=(100, 100)))
         omx.add_matrix("B", prng.normal(size=(100, 100)).astype(np.float32))
         omx.add_lookup("TAZ", np.arange(1, 101, dtype=np.int8))
     return file
-

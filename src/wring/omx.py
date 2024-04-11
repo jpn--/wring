@@ -111,18 +111,15 @@ class OMX(File):
             )
         return s
 
-    def __init__(
-        self, filename, mode="r", *arg, complevel=3, complib="blosc2:zstd", **kwarg
-    ):
+    def __init__(self, filename, mode="r", complevel=3, complib="blosc2:zstd", **kwarg):
         if _tb is None:
             raise ImportError("pytables is not installed")
         if "filters" in kwarg:
-            super().__init__(filename, mode=mode, *arg, **kwarg)
+            super().__init__(filename, mode=mode, **kwarg)
         else:
             super().__init__(
                 filename,
                 mode=mode,
-                *arg,
                 filters=_tb.Filters(complib=complib, complevel=complevel),
                 **kwarg,
             )
@@ -724,14 +721,15 @@ def convert_multiple_omx(
             results_outstanding += 1
 
         while results_outstanding > 0:
+            c.status(f"converting {results_outstanding} files...")
+            time.sleep(1)
             for i, (res, f, new_filename) in enumerate(multiple_results):
                 if res.ready():
                     t = res.get(timeout=60)
-                    print(f"\rconverted {f} to {new_filename} in {t:.2f} seconds.")
+                    print(f"converted {f} to {new_filename} in {t:.2f} seconds.")
                     results_outstanding -= 1
                     del multiple_results[i]
                     break
-            time.sleep(1)
 
     wall_time = time.time() - start
-    print(f"converted all files in {wall_time:.2f} seconds.")
+    c.status(f"converted all files in {wall_time:.2f} seconds.")
