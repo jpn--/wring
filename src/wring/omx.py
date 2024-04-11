@@ -636,6 +636,7 @@ def convert_omx(
     float
         The time in seconds it took to convert the file.
     """
+    print(f"[green]converting[/green] {existing_filename} to {new_filename}...")
     start = time.time()
     with OMX(existing_filename, mode="r") as old_omx:
         if part != 0 or n_part != 1:
@@ -712,7 +713,6 @@ def convert_multiple_omx(
                 new_filename = os.path.join(out_dir, os.path.basename(f))
             else:
                 new_filename = f + "z"
-            print(f"converting {f} to {new_filename}...")
             r = pool.apply_async(
                 convert_omx,
                 (f, new_filename, complevel, complib, dtype_shrink),
@@ -726,7 +726,7 @@ def convert_multiple_omx(
             for i, (res, f, new_filename) in enumerate(multiple_results):
                 if res.ready():
                     t = res.get(timeout=60)
-                    print(f"converted {f} to {new_filename} in {t:.2f} seconds.")
+                    print(f"[green]converted[/green] {f} to {new_filename} in {t:.2f} seconds.")
                     results_outstanding -= 1
                     del multiple_results[i]
                     break

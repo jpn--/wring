@@ -11,7 +11,7 @@ from ._app import app
 
 @app.command()
 def csv(
-    directory: Path,
+    directory: Path = ".",
     compression: str = typer.Option("zstd", help="compression algorithm"),
     compression_level: int = typer.Option(9, help="compression level"),
     clean: bool = typer.Option(
