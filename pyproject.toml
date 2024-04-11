@@ -53,6 +53,9 @@ quality = [
 tests = [
   "pytest~=7.1.2",
 ]
+omx = [
+  "pytables",
+]
 
 [tool.hatch.envs.quality]
 features = [
@@ -70,7 +73,7 @@ format = [
   "check",
 ]
 
-[tool.ruff]
+[tool.ruff.lint]
 ignore = [
   "E501", # line too long, handled by black
   "B008", # do not perform function calls in argument defaults
@@ -85,7 +88,7 @@ select = [
   "B", # flake8-bugbear
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["wring"]
 
 [tool.hatch.envs.test]
