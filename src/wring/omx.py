@@ -140,7 +140,8 @@ class OMX(File):
                 self.root._v_attrs.OMX_VERSION = b"0.2"
             except _tb.exceptions.FileModeError:
                 raise OMXBadFormat(
-                    "the root OMX_VERSION attribute does not exist and cannot be created"
+                    "the root OMX_VERSION attribute does not exist and cannot be"
+                    " created"
                 ) from None
         if "SHAPE" not in self.root._v_attrs:
             try:
@@ -286,7 +287,8 @@ class OMX(File):
                     self.shape = (shape, shape)
                 else:
                     raise OMXIncompatibleShape(
-                        f"this omx has shape {self.shape!s} but you want to set {shape!s}"
+                        f"this omx has shape {self.shape!s} but you want to set"
+                        f" {shape!s}"
                     )
         else:
             if self.shape[0] != self.shape[1]:
@@ -343,7 +345,8 @@ class OMX(File):
         if shape is not None:
             if shape[:2] != self.shape:
                 raise OMXIncompatibleShape(
-                    f"this omx has shape {self.shape!s} but you want to set {shape[:2]!s}"
+                    f"this omx has shape {self.shape!s} but you want to set"
+                    f" {shape[:2]!s}"
                 )
         else:
             shape = self.shape
@@ -401,7 +404,8 @@ class OMX(File):
             if self.data._v_nchildren > 0:
                 if obj.shape != self.shape:
                     raise OMXIncompatibleShape(
-                        f"this omx has shape {self.shape!s} but you want to add {obj.shape!s}"
+                        f"this omx has shape {self.shape!s} but you want to add"
+                        f" {obj.shape!s}"
                     )
         if self.data._v_nchildren == 0:
             shp = np.empty(2, dtype=int)
@@ -509,7 +513,8 @@ class OMX(File):
                     neww[i] = orig[i]
                 if require_smaller and neww.size_on_disk >= orig.size_on_disk:
                     warnings.warn(
-                        f"abort change_atom_type on {name}, {neww.size_on_disk} > {orig.size_on_disk}",
+                        f"abort change_atom_type on {name}, {neww.size_on_disk} >"
+                        f" {orig.size_on_disk}",
                         stacklevel=2,
                     )
                     neww._f_remove()
@@ -523,7 +528,8 @@ class OMX(File):
                     neww[i] = orig[i]
                 if require_smaller and neww.size_on_disk >= orig.size_on_disk:
                     warnings.warn(
-                        f"abort change_atom_type on {name}, {neww.size_on_disk} > {orig.size_on_disk}",
+                        f"abort change_atom_type on {name}, {neww.size_on_disk} >"
+                        f" {orig.size_on_disk}",
                         stacklevel=2,
                     )
                     neww._f_remove()
@@ -552,7 +558,8 @@ class OMX(File):
                 self.add_lookup(key, np.asarray(value))
             else:
                 raise OMXIncompatibleShape(
-                    f"cannot add vector[{value_shape[0]}] to OMX with shape {self.shape}"
+                    f"cannot add vector[{value_shape[0]}] to OMX with shape"
+                    f" {self.shape}"
                 )
         elif len(value_shape) == 2:
             if value_shape[0] == self.shape[0] and value_shape[1] == self.shape[1]:
@@ -563,7 +570,8 @@ class OMX(File):
                 )
         else:
             raise OMXIncompatibleShape(
-                f"cannot add matrix[{value_shape}] which has more than 3 dimnensions to OMX"
+                f"cannot add matrix[{value_shape}] which has more than 3 dimnensions"
+                " to OMX"
             )
 
     def __getattr__(self, key):
@@ -726,7 +734,10 @@ def convert_multiple_omx(
             for i, (res, f, new_filename) in enumerate(multiple_results):
                 if res.ready():
                     t = res.get(timeout=60)
-                    print(f"[green]converted[/green] {f} to {new_filename} in {t:.2f} seconds.")
+                    print(
+                        f"[green]converted[/green] {f} to {new_filename} in"
+                        f" {t:.2f} seconds."
+                    )
                     results_outstanding -= 1
                     del multiple_results[i]
                     break
