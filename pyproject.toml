@@ -52,6 +52,7 @@ quality = [
 ]
 tests = [
   "pytest~=7.1.2",
+  "pytables",
 ]
 omx = [
   "pytables",
