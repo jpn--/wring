@@ -3,6 +3,7 @@
 import os
 import tarfile
 import tempfile
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -26,6 +27,7 @@ def extract_zst(archive: Path, out_path: Path):
       directory to extract files and directories to
     """
     c = console.Console()
+    t = time.time()
 
     if zstandard is None:
         raise ImportError("pip install zstandard")
@@ -45,7 +47,7 @@ def extract_zst(archive: Path, out_path: Path):
                 ofh.seek(0)
                 with tarfile.open(fileobj=ofh) as z:
                     z.extractall(out_path)
-        c.print(f"extracted to {out_path}")
+        c.print(f"extracted to {out_path} in {time.time() - t:.1f} seconds")
         return
 
     if archive.suffix == ".part000":
@@ -54,24 +56,46 @@ def extract_zst(archive: Path, out_path: Path):
         archive_part0 = archive.with_name(archive.name + ".part000")
 
     if archive_part0.exists():
-        c.print(f"extracting from {archive}")
-        with c.status("decompressing multipart tar") as s:
-            dobj = dctx.decompressobj()
-            n = 0
-            with tempfile.TemporaryFile(suffix=".tar") as ofh:
+        c.print(f"extracting from {archive.with_suffix('')}")
+        try:
+            from split_file_reader import SplitFileReader
+        except ImportError:
+            with c.status("decompressing multipart tar") as s:
+                dobj = dctx.decompressobj()
+                n = 0
+                with tempfile.TemporaryFile(suffix=".tar") as ofh:
+                    while archive_part0.with_suffix(f".part{n:03}").exists():
+                        with archive_part0.with_suffix(f".part{n:03}").open(
+                            "rb"
+                        ) as ifh:
+                            s.update(f"reading part{n:03}")
+                            blob = dobj.decompress(ifh.read())
+                            s.update(f"writing part{n:03} to temp.tar")
+                            ofh.write(blob)
+                        n += 1
+                    s.update(f"extracting from temp.tar to {out_path}")
+                    ofh.seek(0)
+                    with tarfile.open(fileobj=ofh) as z:
+                        z.extractall(out_path)
+            c.print(f"extracted to {out_path} in {time.time() - t:.1f} seconds")
+            return
+        else:
+            with c.status("decompressing multipart tar via split-file-reader") as s:
+                filepaths = []
+                n = 0
                 while archive_part0.with_suffix(f".part{n:03}").exists():
-                    with archive_part0.with_suffix(f".part{n:03}").open("rb") as ifh:
-                        s.update(f"reading part{n:03}")
-                        blob = dobj.decompress(ifh.read())
-                        s.update(f"writing part{n:03} to temp.tar")
-                        ofh.write(blob)
+                    filepaths.append(
+                        archive_part0.with_suffix(f".part{n:03}").resolve()
+                    )
                     n += 1
-                s.update(f"extracting from temp.tar to {out_path}")
-                ofh.seek(0)
-                with tarfile.open(fileobj=ofh) as z:
-                    z.extractall(out_path)
-        c.print(f"extracted to {out_path}")
-        return
+                with SplitFileReader(filepaths) as sfr:
+                    with dctx.stream_reader(sfr) as z:
+                        with tarfile.open(fileobj=z, mode="r:") as tarf:
+                            for member in tarf:
+                                s.update(f"extracting {member.name}")
+                                tarf.extract(member, out_path)
+            c.print(f"extracted to {out_path} in {time.time() - t:.1f} seconds")
+            return
     raise FileNotFoundError(archive)
 
 
